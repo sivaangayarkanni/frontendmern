@@ -28,52 +28,64 @@ const recentActivities = [
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen p-6 relative overflow-hidden" style={{background: 'linear-gradient(135deg, #034C53, #007074, #F38C79, #FFC1B4)'}}>
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-white/10 rounded-full animate-bounce"></div>
-        <div className="absolute top-40 right-32 w-24 h-24 bg-white/20 rounded-full animate-pulse"></div>
-        <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-white/15 rounded-full animate-float"></div>
-        <div className="absolute bottom-20 right-20 w-28 h-28 bg-white/10 rounded-full animate-bounce-slow"></div>
+    <div className="min-h-screen p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      {/* Professional Background Elements */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full animate-float blur-xl"></div>
+        <div className="absolute top-40 right-32 w-24 h-24 bg-gradient-to-br from-green-400 to-blue-500 rounded-full animate-pulse blur-xl"></div>
+        <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full animate-bounce-slow blur-xl"></div>
+        <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full animate-float blur-xl"></div>
       </div>
       
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         {/* Header */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-8 animate-slideIn">
           <div>
-            <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-            <p className="text-white/80 mt-1">Welcome back! Here's what's happening with your business today.</p>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">Dashboard</h1>
+            <p className="text-gray-600 mt-2 text-lg">Welcome back! Here's what's happening with your business today.</p>
           </div>
-          <div className="flex items-center space-x-4">
-            <button className="relative p-2 text-white/70 hover:text-white">
-              <Bell className="w-6 h-6" />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+          <div className="flex items-center space-x-6">
+            <button className="relative p-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-300 group">
+              <Bell className="w-6 h-6 group-hover:animate-pulse" />
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center animate-pulse">
+                <span className="w-2 h-2 bg-white rounded-full"></span>
+              </span>
             </button>
-            <div className="text-right">
-              <p className="text-sm text-white/70">Today</p>
-              <p className="font-semibold text-white">{new Date().toLocaleDateString('en-IN')}</p>
+            <div className="text-right bg-white/60 backdrop-blur-lg rounded-xl p-4 border border-white/20">
+              <p className="text-sm text-gray-500 font-medium">Today</p>
+              <p className="font-bold text-gray-900">{new Date().toLocaleDateString('en-IN')}</p>
             </div>
           </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => {
-            const cardClasses = ['card-primary animate-float', 'card-secondary animate-pulse-slow', 'card-accent animate-bounce-slow', 'bg-white rounded-2xl shadow-2xl border-4 p-8 transition-all duration-300 animate-float'];
-            const textClasses = ['text-pattern-1', 'text-pattern-2', 'text-pattern-3', 'text-pattern-1'];
-            cardClasses[3] += ' border-[#FFC1B4]';
+            const gradients = [
+              'from-blue-500 to-blue-600',
+              'from-green-500 to-green-600', 
+              'from-purple-500 to-purple-600',
+              'from-emerald-500 to-emerald-600'
+            ];
             return (
-              <div key={stat.name} className={cardClasses[index]} style={{animationDelay: `${index * 0.2}s`}}>
+              <div key={stat.name} className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-6 card-elevated animate-slideIn hover:scale-105 transition-all duration-300" style={{animationDelay: `${index * 0.1}s`}}>
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-slate-600 mb-2 uppercase tracking-wider">{stat.name}</p>
-                    <p className={`text-3xl font-black mb-3 ${textClasses[index]}`}>{stat.value}</p>
-                    <p className={`text-sm font-bold`} style={{color: stat.change.startsWith('+') ? '#034C53' : '#007074'}}>
+                  <div className="flex-1">
+                    <div className="flex items-center mb-2">
+                      <div className={`p-2 rounded-lg bg-gradient-to-r ${gradients[index]} mr-3`}>
+                        <stat.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider">{stat.name}</p>
+                    </div>
+                    <p className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</p>
+                    <p className={`text-sm font-semibold flex items-center ${
+                      stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'
+                    }`}>
+                      <TrendingUp className={`w-4 h-4 mr-1 ${
+                        stat.change.startsWith('+') ? 'text-green-500' : 'text-red-500 rotate-180'
+                      }`} />
                       {stat.change} from last month
                     </p>
-                  </div>
-                  <div className={`p-4 rounded-2xl animate-pulse`} style={{backgroundColor: index === 0 ? '#FFC1B4' : index === 1 ? '#F38C79' : index === 2 ? '#007074' : '#034C53', opacity: 0.3}}>
-                    <stat.icon className={`w-8 h-8 ${stat.color}`} />
                   </div>
                 </div>
               </div>
@@ -82,11 +94,17 @@ export default function Dashboard() {
         </div>
 
         {/* Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Revenue Chart */}
-          <div className="bg-white rounded-3xl shadow-2xl p-8 transition-all duration-500" style={{border: '4px solid #F38C79'}}>
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold text-pattern-2">Revenue & Leads Performance</h3>
+          <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-6 card-elevated animate-slideIn border border-white/20">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-gray-900">Revenue & Leads Performance</h3>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                <span className="text-sm text-gray-600">Revenue</span>
+                <div className="w-3 h-3 bg-green-500 rounded-full ml-4"></div>
+                <span className="text-sm text-gray-600">Leads</span>
+              </div>
             </div>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={chartData}>
@@ -113,21 +131,22 @@ export default function Dashboard() {
           </div>
 
           {/* Recent Activities */}
-          <div className="bg-white rounded-3xl shadow-2xl p-8 transition-all duration-300" style={{border: '4px solid #FFC1B4'}}>
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold text-pattern-1">Recent Team Activities</h3>
+          <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-6 card-elevated animate-slideIn border border-white/20">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-gray-900">Recent Team Activities</h3>
+              <button className="text-sm text-blue-600 hover:text-blue-800 font-semibold">View All</button>
             </div>
             <div className="space-y-4">
               {recentActivities.map((activity) => {
                 const Icon = activity.icon;
                 return (
-                  <div key={activity.id} className="flex items-center space-x-6 p-4 rounded-2xl transition-all duration-300 border-2 border-transparent" style={{'&:hover': {background: 'linear-gradient(to right, #f8fafc, #FFE1AF)', borderColor: '#E2B59A'}}}>
-                    <div className={`p-3 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 animate-pulse`}>
+                  <div key={activity.id} className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-all duration-200 group">
+                    <div className="p-3 rounded-lg bg-gray-100 group-hover:bg-gray-200 transition-colors">
                       <Icon className={`w-5 h-5 ${activity.color}`} />
                     </div>
                     <div className="flex-1">
-                      <p className="text-base font-semibold text-slate-900">{activity.action}</p>
-                      <p className="text-sm text-slate-600 font-medium">by {activity.user} • {activity.time}</p>
+                      <p className="text-sm font-semibold text-gray-900">{activity.action}</p>
+                      <p className="text-xs text-gray-500">by {activity.user} • {activity.time}</p>
                     </div>
                   </div>
                 );
